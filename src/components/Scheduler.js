@@ -31,7 +31,7 @@ export default function Scheduler() {
   // Form state
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [formData, setFormData] = useState({
-    customerName: '', phoneNumber: '', address: '', appliance: '', complaint: '',
+    customerName: '', phoneNumber: '', address: '', appliance: '', complaint: '', technicianEmail: '',
     startTime: '', endTime: ''
   });
 
@@ -66,6 +66,7 @@ export default function Scheduler() {
             address: props.address || '',
             appliance: props.appliance || '',
             complaint: props.complaint || '',
+            technicianEmail: props.technicianEmail || '',
             originalItem: item
           };
         });
@@ -80,7 +81,7 @@ export default function Scheduler() {
   const handleSelectSlot = ({ start, end }) => {
     setSelectedEvent(null);
     setFormData({
-      customerName: '', phoneNumber: '', address: '', appliance: '', complaint: '',
+      customerName: '', phoneNumber: '', address: '', appliance: '', complaint: '', technicianEmail: '',
       startTime: format(start, "yyyy-MM-dd'T'HH:mm"),
       endTime: format(end, "yyyy-MM-dd'T'HH:mm")
     });
@@ -95,6 +96,7 @@ export default function Scheduler() {
       address: event.address,
       appliance: event.appliance,
       complaint: event.complaint,
+      technicianEmail: event.technicianEmail,
       startTime: format(event.start, "yyyy-MM-dd'T'HH:mm"),
       endTime: format(event.end, "yyyy-MM-dd'T'HH:mm")
     });
@@ -257,6 +259,10 @@ export default function Scheduler() {
               <div className="form-group">
                 <label>Descripción de Avería</label>
                 <textarea required className="input-field" rows="3" value={formData.complaint} onChange={e => setFormData({...formData, complaint: e.target.value})}></textarea>
+              </div>
+              <div className="form-group">
+                <label>Técnico Asignado (Opcional - Email de Google)</label>
+                <input className="input-field" type="email" placeholder="ej. juan@gmail.com" value={formData.technicianEmail} onChange={e => setFormData({...formData, technicianEmail: e.target.value})} />
               </div>
               <div style={{ display: 'flex', gap: '1rem' }}>
                 <div className="form-group" style={{ flex: 1 }}>

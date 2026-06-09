@@ -39,6 +39,7 @@ Dirección: ${eventData.address}
 Detalles de la Reparación:
 Electrodoméstico: ${eventData.appliance}
 Problema/Queja: ${eventData.complaint}
+Técnico Asignado: ${eventData.technicianEmail || 'No asignado'}
 `.trim();
 
   const event = {
@@ -59,10 +60,15 @@ Problema/Queja: ${eventData.complaint}
         address: eventData.address,
         appliance: eventData.appliance,
         complaint: eventData.complaint,
+        technicianEmail: eventData.technicianEmail || '',
         isApplianceRepairEvent: 'true'
       }
     }
   };
+
+  if (eventData.technicianEmail) {
+    event.attendees = [{ email: eventData.technicianEmail }];
+  }
 
   const response = await calendar.events.insert({
     calendarId: 'primary',
@@ -108,6 +114,7 @@ Dirección: ${eventData.address}
 Detalles de la Reparación:
 Electrodoméstico: ${eventData.appliance}
 Problema/Queja: ${eventData.complaint}
+Técnico Asignado: ${eventData.technicianEmail || 'No asignado'}
 `.trim();
     
     updatedEvent.extendedProperties = {
@@ -118,8 +125,15 @@ Problema/Queja: ${eventData.complaint}
         address: eventData.address,
         appliance: eventData.appliance,
         complaint: eventData.complaint,
+        technicianEmail: eventData.technicianEmail || '',
       }
     };
+
+    if (eventData.technicianEmail) {
+      updatedEvent.attendees = [{ email: eventData.technicianEmail }];
+    } else {
+      updatedEvent.attendees = []; // Remover asignación si se borra el email
+    }
   }
 
   const response = await calendar.events.update({
